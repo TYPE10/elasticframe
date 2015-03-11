@@ -1,0 +1,15 @@
+{
+  "name": "elasticframe",
+  "version": "0.1.0",
+  "description": "ElasticFrame - Make your iframe resize automatically. Cross-domain. Dependency-free.",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/type10/elasticframe.git"
+  },
+  "scripts": {
+    "postinstall": "cd example/browserify && npm install"
+  },
+  "keywords": [ "iframe", "height", "cross", "domain", "crossdomain" ],
+  "author": "Chris Neuhäuser <chris@type10.com> (http://type10.com)",
+  "license": "MIT"
+}

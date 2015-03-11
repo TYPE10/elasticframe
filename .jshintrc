@@ -1,0 +1,33 @@
+/* jshint quotmark: false */
+{
+    "bitwise": true,
+    "browser": true,
+    "curly": true,
+    "eqeqeq": true,
+    "expr": true,
+    "forin": true,
+    "immed": true,
+    "indent": 4,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "noempty": true,
+    "nomen": false,
+    "nonew": true,
+    "notypeof": true,
+    "onevar": true,
+    "phantom": true,
+    "quotmark": "single",
+    "trailing": true,
+    "undef": true,
+    "unused": true,
+    "browser": true,
+    "jquery": true,
+    "node": true,
+    "strict": false,
+    "globals": {
+        "define": true,
+        "require": true,
+        "requirejs": true
+    }
+}
