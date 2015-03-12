@@ -43,12 +43,22 @@
         }
     }
 
+    function resetIframeHeight(id) {
+        document.getElementById(id).style.height = 'auto';
+    }
+
     function initParent(id) {
         if (window.addEventListener) {
+            window.addEventListener('resize', function() {
+                resetIframeHeight(id);
+            });
             window.addEventListener('message', function(ev) {
                 setIframeHeight(ev, id);
             });
         } else {
+            window.attachEvent('onresize', function() {
+                resetIframeHeight(id);
+            });
             window.attachEvent('onmessage', function(ev) {
                 setIframeHeight(ev, id);
             });
