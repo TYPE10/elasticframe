@@ -1,0 +1,11 @@
+{
+  "name": "elasticframe",
+  "main": "elasticframe.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/TYPE10/elasticframe",
+  "description": "ElasticFrame - Make your iframe resize automatically. Cross-domain. Dependency-free.",
+  "authors": [ "Chris Neuhäuser <chris@type10.com> (http://type10.com)" ],
+  "moduleType": [ "amd", "globals", "node" ],
+  "keywords": [ "iframe", "height", "cross", "domain", "crossdomain" ],
+  "license": "MIT"
+}
