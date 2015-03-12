@@ -1,3 +1,5 @@
+'use strict';
+
 /*!
  * elasticframe
  * https://github.com/kwizzn/elasticframe
