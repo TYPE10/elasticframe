@@ -18,25 +18,41 @@
         var height = Math.min(document.documentElement.scrollHeight, document.documentElement.offsetHeight);
 
         if (window.parent && window.parent.postMessage) {
-            window.parent.postMessage({ type: 'elasticframe', height: height }, '*');
+            window.parent.postMessage(JSON.stringify({ type: 'elasticframe', height: height }), '*');
         }
     }
 
     function setIframeHeight(ev, id) {
-        if (ev && typeof ev.data === 'object' && ev.data.type === 'elasticframe' && ev.data.height) {
-            document.getElementById(id).style.height = ev.data.height + 'px';
+        var data;
+        try {
+            data = JSON.parse(ev.data);
+        } catch(e) {}
+
+        if (typeof data === 'object' && data.type === 'elasticframe' && data.height) {
+            document.getElementById(id).style.height = data.height + 'px';
         }
     }
 
     function initParent(id) {
-        window.addEventListener('message', function(ev) {
-            setIframeHeight(ev, id);
-        });
+        if (window.addEventListener) {
+            window.addEventListener('message', function(ev) {
+                setIframeHeight(ev, id);
+            });
+        } else {
+            window.attachEvent('onmessage', function(ev) {
+                setIframeHeight(ev, id);
+            });
+        }
     }
 
     function initIframe() {
-        window.addEventListener('load',   sendIframeHeight);
-        window.addEventListener('resize', sendIframeHeight);
+        if (window.addEventListener) {
+            window.addEventListener('load',   sendIframeHeight);
+            window.addEventListener('resize', sendIframeHeight);
+        } else {
+            window.attachEvent('onload',   sendIframeHeight);
+            window.attachEvent('onresize', sendIframeHeight);
+        }
     }
 
     return {
