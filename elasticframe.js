@@ -24,7 +24,7 @@
         );
     }
 
-    function sendIframeHeight() {
+    function sendContentHeight() {
         var height = getDocHeight();
 
         if (window.parent && window.parent.postMessage) {
@@ -57,11 +57,11 @@
 
     function initIframe() {
         if (window.addEventListener) {
-            window.addEventListener('load',   sendIframeHeight);
-            window.addEventListener('resize', sendIframeHeight);
+            window.addEventListener('load',   sendContentHeight);
+            window.addEventListener('resize', sendContentHeight);
         } else {
-            window.attachEvent('onload',   sendIframeHeight);
-            window.attachEvent('onresize', sendIframeHeight);
+            window.attachEvent('onload',   sendContentHeight);
+            window.attachEvent('onresize', sendContentHeight);
         }
     }
 
