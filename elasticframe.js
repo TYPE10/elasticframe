@@ -14,8 +14,18 @@
     }
 
 }(function() {
+    function getDocHeight() {
+        var de = document.documentElement,
+            bd = document.body;
+        return Math.max(
+            bd.scrollHeight, de.scrollHeight,
+            bd.offsetHeight, de.offsetHeight,
+            bd.clientHeight, de.clientHeight
+        );
+    }
+
     function sendIframeHeight() {
-        var height = Math.min(document.documentElement.scrollHeight, document.documentElement.offsetHeight);
+        var height = getDocHeight();
 
         if (window.parent && window.parent.postMessage) {
             window.parent.postMessage(JSON.stringify({ type: 'elasticframe', height: height }), '*');
