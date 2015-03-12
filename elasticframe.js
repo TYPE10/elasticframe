@@ -38,8 +38,8 @@
             data = JSON.parse(ev.data);
         } catch(e) {}
 
-        if (typeof data === 'object' && data.type === 'elasticframe' && data.height) {
-            document.getElementById(id).style.height = data.height + 'px';
+        if (typeof data === 'object' && data.type === 'elasticframe' && typeof parseInt(data.height) === 'number') {
+            document.getElementById(id).style.height = parseInt(data.height) + 'px';
         }
     }
 
