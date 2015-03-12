@@ -1,5 +1,5 @@
 /*!
- * elasticframe v0.0.1
+ * elasticframe
  * https://github.com/kwizzn/elasticframe
  * Copyright (c) 2015 Chris Neuhäuser, TYPE10 Media GmbH
  * Licensed under the MIT License
