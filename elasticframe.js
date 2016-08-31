@@ -16,6 +16,18 @@
     }
 
 }(function() {
+    function getData(json) {
+        var data;
+        try {
+            data = JSON.parse(json);
+        } catch(e) {}
+
+        if (data !== null && typeof data === 'object' && data.type === 'elasticframe') {
+            return data;
+        }
+        return {};
+    }
+
     function getDocHeight() {
         var de = document.documentElement,
             bd = document.body;
@@ -26,55 +38,91 @@
         );
     }
 
-    function sendContentHeight() {
+    function listen(target, event, callback) {
+        if (target.addEventListener) {
+            target.addEventListener(event, callback);
+        } else {
+            target.attachEvent('on' + event, callback);
+        }
+    }
+
+    function unlisten(target, event, callback) {
+        if (target.removeEventListener) {
+            target.removeEventListener(event, callback);
+        } else {
+            target.detachEvent('on' + event, callback);
+        }
+    }
+
+    function sendContentHeight(id) {
         var height = getDocHeight();
 
         if (window.parent && window.parent.postMessage) {
-            window.parent.postMessage(JSON.stringify({ type: 'elasticframe', height: height }), '*');
+            window.parent.postMessage(JSON.stringify({ type: 'elasticframe', code: 'content-height', id: id, height: height }), '*');
         }
     }
 
-    function setIframeHeight(ev, id) {
-        var data;
-        try {
-            data = JSON.parse(ev.data);
-        } catch(e) {}
-
-        if (typeof data === 'object' && data.type === 'elasticframe' && typeof parseInt(data.height) === 'number') {
-            document.getElementById(id).style.height = parseInt(data.height) + 'px';
+    function sendIframeID(iframe) {
+        if (iframe.contentWindow.postMessage) {
+            iframe.contentWindow.postMessage(JSON.stringify({ type: 'elasticframe', code: 'id', id: iframe.id }), '*');
         }
     }
 
-    function resetIframeHeight(id) {
-        document.getElementById(id).style.height = 'auto';
+    function sendIframeIDRequest() {
+        if (window.parent && window.parent.postMessage) {
+            window.parent.postMessage(JSON.stringify({ type: 'elasticframe', code: 'id-request' }), '*');
+        }
+    }
+
+    function setIframeHeight(event) {
+        var data = getData(event.data);
+        if (data.code === 'content-height' && typeof data.id === 'string') {
+            if (!isNaN(parseInt(data.height))) {
+                document.getElementById(data.id).style.height = parseInt(data.height) + 'px';
+            } else {
+                // This should never happen
+                document.getElementById(data.id).style.height = 'auto';
+            }
+        }
+    }
+
+    function resetIframeHeight(iframe) {
+        iframe.style.height = '0px';
     }
 
     function initParent(id) {
-        if (window.addEventListener) {
-            window.addEventListener('resize', function() {
-                resetIframeHeight(id);
-            });
-            window.addEventListener('message', function(ev) {
-                setIframeHeight(ev, id);
-            });
-        } else {
-            window.attachEvent('onresize', function() {
-                resetIframeHeight(id);
-            });
-            window.attachEvent('onmessage', function(ev) {
-                setIframeHeight(ev, id);
-            });
+        var iframe = document.getElementById(id);
+        function init(event) {
+            if (event.source === iframe.contentWindow && getData(event.data).code === 'id-request') {
+                unlisten(window, 'message', init);
+                listen(window, 'message', setIframeHeight);
+                listen(window, 'resize', function() {
+                    resetIframeHeight(iframe);
+                });
+                sendIframeID(iframe);
+                resetIframeHeight(iframe);
+            }
         }
+        listen(window, 'message', init);
     }
 
     function initIframe() {
-        if (window.addEventListener) {
-            window.addEventListener('load',   sendContentHeight);
-            window.addEventListener('resize', sendContentHeight);
-        } else {
-            window.attachEvent('onload',   sendContentHeight);
-            window.attachEvent('onresize', sendContentHeight);
+        var id;
+        function init(event) {
+            var data = getData(event.data);
+            if (data.code === 'id' && typeof data.id === 'string') {
+                id = data.id;
+                unlisten(window, 'message', init);
+                listen(window, 'load',   update);
+                listen(window, 'resize', update);
+                update();
+            }
         }
+        function update() {
+            sendContentHeight(id);
+        }
+        sendIframeIDRequest();
+        listen(window, 'message', init);
     }
 
     return {
