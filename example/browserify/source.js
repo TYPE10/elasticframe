@@ -1,3 +1,4 @@
 'use strict';
 var ElasticFrame = require('../../elasticframe');
-ElasticFrame.initParent('theFrame');
+ElasticFrame.initParent('bigFrame');
+ElasticFrame.initParent('smallFrame');
