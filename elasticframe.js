@@ -46,7 +46,7 @@
     }
 
     function resetIframeHeight(id) {
-        document.getElementById(id).style.height = 'auto';
+        document.getElementById(id).style.height = '0px';
     }
 
     function initParent(id) {
@@ -65,6 +65,7 @@
                 setIframeHeight(ev, id);
             });
         }
+        resetIframeHeight(id);
     }
 
     function initIframe() {
