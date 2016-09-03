@@ -22,6 +22,22 @@
       document.addEventListener('test', null, { get passive() { supportsEventOptions = true }});
     } catch(e) {}
 
+    function cancelAnimationFrame(id) {
+        if (window.cancelAnimationFrame) {
+            window.cancelAnimationFrame(id);
+        } else {
+            clearTimeout(id);
+        }
+    }
+
+    function requestAnimationFrame(callback) {
+        if (window.requestAnimationFrame) {
+            return window.requestAnimationFrame(callback);
+        } else {
+            return setTimeout(callback, 16.66);  // 60fps
+        }
+    }
+
     function getData(json) {
         var data;
         try {
@@ -76,6 +92,7 @@
     }
 
     function initParent(id) {
+        var heightDelay,resetDelay,resizeDelay;
         var iframe = document.getElementById(id);
         if (!iframe.contentWindow.postMessage) return;
         listen('message', function(event) {
@@ -84,20 +101,31 @@
                 data = getData(event.data);
                 switch (data.code) {
                     case 'height': {
-                        setHeight(iframe, parseInt(data.height));
+                        cancelAnimationFrame(heightDelay);
+                        heightDelay = requestAnimationFrame(function() {
+                            setHeight(iframe, parseInt(data.height));
+                        });
                         break;
                     }
                     case 'reset-request': {
-                        resetHeight(iframe);
-                        sendHeightRequest(iframe);
+                        cancelAnimationFrame(resetDelay);
+                        resetDelay = requestAnimationFrame(function() {
+                            resetHeight(iframe);
+                            sendHeightRequest(iframe);
+                        });
                         break;
                     }
                 }
             }
         }, { passive: true });
         listen('resize', function(event) {
-            resetHeight(iframe);
-            sendHeightRequest(iframe);
+            cancelAnimationFrame(heightDelay);
+            cancelAnimationFrame(resetDelay);
+            cancelAnimationFrame(resizeDelay);
+            resizeDelay = requestAnimationFrame(function() {
+                resetHeight(iframe);
+                sendHeightRequest(iframe);
+            });
         }, { passive: true });
     }
 
