@@ -16,6 +16,12 @@
     }
 
 }(function() {
+    // https://github.com/Modernizr/Modernizr/issues/1894#issuecomment-200691178
+    var supportsEventOptions = false;
+    try {
+      document.addEventListener('test', null, { get passive() { supportsEventOptions = true }});
+    } catch(e) {}
+
     function getData(json) {
         var data;
         try {
@@ -28,101 +34,88 @@
         return {};
     }
 
-    function getDocHeight() {
-        var de = document.documentElement,
-            bd = document.body;
-        return Math.max(
+    function listen(event, handler, options) {
+        if (window.addEventListener) {
+            if (!supportsEventOptions && options !== null && typeof options === 'object') options = options.capture;
+            window.addEventListener(event, handler, options);
+        } else {
+            window.attachEvent('on' + event, handler);
+        }
+    }
+
+    function sendHeight() {
+        var de = document.documentElement;
+        var bd = document.body;
+        var height = Math.max(
             bd.scrollHeight, de.scrollHeight,
             bd.offsetHeight, de.offsetHeight,
             bd.clientHeight, de.clientHeight
         );
+        window.parent.postMessage(JSON.stringify({ type: 'elasticframe', code: 'height', height: height }), '*');
     }
 
-    function listen(target, event, callback) {
-        if (target.addEventListener) {
-            target.addEventListener(event, callback);
+    function sendHeightRequest(iframe) {
+        iframe.contentWindow.postMessage(JSON.stringify({ type: 'elasticframe', code: 'height-request', id: iframe.id }), '*');
+    }
+
+    function sendResetRequest() {
+         window.parent.postMessage(JSON.stringify({ type: 'elasticframe', code: 'reset-request' }), '*');
+    }
+
+    function setHeight(iframe, height) {
+        if (!isNaN(height)) {
+            iframe.style.height = height + 'px';
         } else {
-            target.attachEvent('on' + event, callback);
+            // This should never happen
+            iframe.style.height = 'auto';
         }
     }
 
-    function unlisten(target, event, callback) {
-        if (target.removeEventListener) {
-            target.removeEventListener(event, callback);
-        } else {
-            target.detachEvent('on' + event, callback);
-        }
-    }
-
-    function sendContentHeight(id) {
-        var height = getDocHeight();
-
-        if (window.parent && window.parent.postMessage) {
-            window.parent.postMessage(JSON.stringify({ type: 'elasticframe', code: 'content-height', id: id, height: height }), '*');
-        }
-    }
-
-    function sendIframeID(iframe) {
-        if (iframe.contentWindow.postMessage) {
-            iframe.contentWindow.postMessage(JSON.stringify({ type: 'elasticframe', code: 'id', id: iframe.id }), '*');
-        }
-    }
-
-    function sendIframeIDRequest() {
-        if (window.parent && window.parent.postMessage) {
-            window.parent.postMessage(JSON.stringify({ type: 'elasticframe', code: 'id-request' }), '*');
-        }
-    }
-
-    function setIframeHeight(event) {
-        var data = getData(event.data);
-        if (data.code === 'content-height' && typeof data.id === 'string') {
-            if (!isNaN(parseInt(data.height))) {
-                document.getElementById(data.id).style.height = parseInt(data.height) + 'px';
-            } else {
-                // This should never happen
-                document.getElementById(data.id).style.height = 'auto';
-            }
-        }
-    }
-
-    function resetIframeHeight(iframe) {
+    function resetHeight(iframe) {
         iframe.style.height = '0px';
     }
 
     function initParent(id) {
         var iframe = document.getElementById(id);
-        function init(event) {
-            if (event.source === iframe.contentWindow && getData(event.data).code === 'id-request') {
-                unlisten(window, 'message', init);
-                listen(window, 'message', setIframeHeight);
-                listen(window, 'resize', function() {
-                    resetIframeHeight(iframe);
-                });
-                sendIframeID(iframe);
-                resetIframeHeight(iframe);
+        if (!iframe.contentWindow.postMessage) return;
+        listen('message', function(event) {
+            var data;
+            if (event.source === iframe.contentWindow) {
+                data = getData(event.data);
+                switch (data.code) {
+                    case 'height': {
+                        setHeight(iframe, parseInt(data.height));
+                        break;
+                    }
+                    case 'reset-request': {
+                        resetHeight(iframe);
+                        sendHeightRequest(iframe);
+                        break;
+                    }
+                }
             }
-        }
-        listen(window, 'message', init);
+        }, { passive: true });
+        listen('resize', function(event) {
+            resetHeight(iframe);
+            sendHeightRequest(iframe);
+        }, { passive: true });
     }
 
     function initIframe() {
-        var id;
-        function init(event) {
+        if (!window.parent || !window.parent.postMessage) return;
+        listen('message', function(event) {
             var data = getData(event.data);
-            if (data.code === 'id' && typeof data.id === 'string') {
-                id = data.id;
-                unlisten(window, 'message', init);
-                listen(window, 'load',   update);
-                listen(window, 'resize', update);
-                update();
+            if (data.code === 'height-request') {
+                if (document.readyState === 'complete') {
+                    sendHeight(data.id);
+                } else {
+                    listen('load', function() {
+                        sendHeight(data.id);
+                    }, { once: true, passive: true }); 
+                }
             }
-        }
-        function update() {
-            sendContentHeight(id);
-        }
-        sendIframeIDRequest();
-        listen(window, 'message', init);
+        }, { passive: true });
+        sendResetRequest();
     }
 
     return {

@@ -1,5 +1,5 @@
-ElasticFrame - Make your iframe resize automatically. Cross-domain. Dependency-free.
-------------------------------------------------------------------------------------
+ElasticFrame - Make your iframe(s) resize automatically. Cross-domain. Dependency-free.
+---------------------------------------------------------------------------------------
 
 Same-origin policy prevents reading an iframe's document height from the host page.
 ElasticFrame makes your iframe talk to the host page about its actual document height whenever it changes.
