@@ -71,7 +71,7 @@
     }
 
     function sendHeightRequest(iframe) {
-        iframe.contentWindow.postMessage(JSON.stringify({ type: 'elasticframe', code: 'height-request', id: iframe.id }), '*');
+        iframe.contentWindow.postMessage(JSON.stringify({ type: 'elasticframe', code: 'height-request' }), '*');
     }
 
     function sendResetRequest() {
@@ -99,7 +99,6 @@
             cancelAnimationFrame(resetDelay);
             cancelAnimationFrame(resizeDelay);
             resizeDelay = requestAnimationFrame(function() {
-                console.log("page resizeIframe ("+iframe.id+")")
                 resetHeight(iframe);
                 sendHeightRequest(iframe);
             });
@@ -139,10 +138,10 @@
             var data = getData(event.data);
             if (data.code === 'height-request') {
                 if (document.readyState === 'complete') {
-                    sendHeight(data.id);
+                    sendHeight();
                 } else {
                     listen('load', function() {
-                        sendHeight(data.id);
+                        sendHeight();
                     }, { once: true, passive: true }); 
                 }
             }
