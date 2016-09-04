@@ -9,12 +9,22 @@
     <div>Some content before iframes.</div>
     <iframe src="iframes/iframe1.html" id="bigFrame" style="width: 100%; overflow: hidden; border: none;"></iframe>
     <iframe src="iframes/iframe2.html" id="smallFrame" style="width: 100%; overflow: hidden; border: none;"></iframe>
+    <iframe src="iframes/iframe3.html" id="manualFrame1" style="width: 100%; overflow: hidden; border: none;"></iframe>
+    <iframe src="iframes/iframe4.html" id="manualFrame2" style="width: 100%; overflow: hidden; border: none; display: none;"></iframe>
     <div>Some content after iframes.</div>
 
     <script src="../../elasticframe.js"></script>
     <script>
-      ElasticFrame.initParent( document.getElementById('bigFrame') );
-      ElasticFrame.initParent( document.querySelector('iframe#smallFrame') );
+      ElasticFrame.initParent( document.querySelector('iframe#bigFrame') );
+      ElasticFrame.initParent( document.getElementById('smallFrame') );
+      ElasticFrame.initParent( document.getElementById('manualFrame1') );
+
+      var manualFrame2 = document.getElementById('manualFrame2');
+      var eframe = ElasticFrame.initParent(manualFrame2);
+      setTimeout(function() {
+        manualFrame2.style.display = 'block';
+        eframe.resize();
+      }, 100);
     </script>
   </body>
 </html>

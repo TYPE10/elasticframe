@@ -1,3 +1,4 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
 /*!
@@ -16,6 +17,9 @@
     }
 
 }(function() {
+    //var idCount = 0;
+    //var parentID;
+
     // https://github.com/Modernizr/Modernizr/issues/1894#issuecomment-200691178
     var supportsEventOptions = false;
     try {
@@ -38,6 +42,18 @@
         }
     }
 
+    /*function debounce(callback) {
+        var delay;
+        return function() {
+            var args = arguments;
+            var thisObj = this;
+            cancelAnimationFrame(delay);
+            delay = requestAnimationFrame(function() {
+                callback.apply(thisObj, args);
+            });
+        };
+    }*/
+
     function getData(json) {
         var data;
         try {
@@ -59,6 +75,7 @@
         }
     }
 
+    // TODO :: wrap in requestAnimationFrame ?
     function sendHeight() {
         var de = document.documentElement;
         var bd = document.body;
@@ -80,9 +97,11 @@
 
     function setHeight(iframe, height) {
         if (!isNaN(height)) {
+            console.log(height)
             iframe.style.height = height + 'px';
         } else {
             // This should never happen
+            console.log("auto")
             iframe.style.height = 'auto';
         }
     }
@@ -94,6 +113,7 @@
     function initParent(iframe) {
         var heightDelay,resetDelay,resizeDelay;
         if (!iframe.contentWindow.postMessage) return;
+        //if (iframe.id === '') iframe.id = 'elasticframe' + (idCount++);
         function resizeIframe() {
             cancelAnimationFrame(heightDelay);
             cancelAnimationFrame(resetDelay);
@@ -110,6 +130,7 @@
                 data = getData(event.data);
                 switch (data.code) {
                     case 'height': {
+                        console.log("parent height ("+iframe.id+")")
                         cancelAnimationFrame(heightDelay);
                         heightDelay = requestAnimationFrame(function() {
                             setHeight(iframe, parseInt(data.height));
@@ -117,6 +138,7 @@
                         break;
                     }
                     case 'reset-request': {
+                        console.log("parent reset-request ("+iframe.id+")")
                         cancelAnimationFrame(resetDelay);
                         resetDelay = requestAnimationFrame(function() {
                             resetHeight(iframe);
@@ -128,6 +150,7 @@
             }
         }, { passive: true });
         listen('resize', function(event) {
+            console.log("page resize ("+iframe.id+")")
             resizeIframe();
         }, { passive: true });
         return { resize: resizeIframe };
@@ -138,10 +161,12 @@
         listen('message', function(event) {
             var data = getData(event.data);
             if (data.code === 'height-request') {
+                console.log("iframe height-request ("+data.id+")")
                 if (document.readyState === 'complete') {
                     sendHeight(data.id);
                 } else {
                     listen('load', function() {
+                        console.log("iframe load ("+data.id+")")
                         sendHeight(data.id);
                     }, { once: true, passive: true }); 
                 }
@@ -156,3 +181,17 @@
         initIframe: initIframe
     };
 }));
+
+},{}],2:[function(require,module,exports){
+'use strict';
+var ElasticFrame = require('../../../elasticframe');
+var eframe = ElasticFrame.initIframe();
+setTimeout(function() {
+  var container = document.getElementById('container');
+  for (var i=0; i<5; i++) {
+    container.innerHTML += ' ' + container.innerHTML;
+  }
+  eframe.resize();
+}, 100);
+
+},{"../../../elasticframe":1}]},{},[2]);

@@ -18,17 +18,32 @@ The host will then update the iframe height accordingly to avoid scrollbars.
 
 Add this to the iframe content page:
 
-    <script src="elasticframe.js"></script>
-    <script>
-      ElasticFrame.initIframe();
-    </script>
+```html
+<script src="elasticframe.js"></script>
+<script>
+  ElasticFrame.initIframe();
+</script>
+```
 
 Then add this to the host page containing the iframe:
 
-    <script src="elasticframe.js"></script>
-    <script>
-      ElasticFrame.initParent(HTMLIFrameElement);
-    </script>
+```html
+<script src="elasticframe.js"></script>
+<script>
+  ElasticFrame.initParent(HTMLIFrameElement);
+</script>
+```
+
+For situations where manual resizing is necessary:
+
+```js
+var eframe = ElasticFrame.initParent(HTMLIFrameElement);
+eframe.resize();
+```
+```js
+var eframe = ElasticFrame.initIframe();
+eframe.resize();
+```
 
 
 ## Browser compatibility
