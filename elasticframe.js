@@ -91,9 +91,8 @@
         iframe.style.height = '0px';
     }
 
-    function initParent(id) {
+    function initParent(iframe) {
         var heightDelay,resetDelay,resizeDelay;
-        var iframe = document.getElementById(id);
         if (!iframe.contentWindow.postMessage) return;
         listen('message', function(event) {
             var data;

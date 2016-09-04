@@ -27,7 +27,7 @@ Then add this to the host page containing the iframe:
 
     <script src="elasticframe.js"></script>
     <script>
-      ElasticFrame.initParent('your-iframe-id');
+      ElasticFrame.initParent(HTMLIFrameElement);
     </script>
 
 
@@ -38,5 +38,5 @@ IE8+, Firefox, Chrome, Safari, Opera
 
 ## License
 
-Copyright &copy; 2015 [Chris Neuhaeuser](https://github.com/kwizzn), [TYPE10 Media](https://github.com/type10)
+Copyright &copy; 2016 [Chris Neuhaeuser](https://github.com/kwizzn), [TYPE10 Media](https://github.com/type10)
 Licensed under the [MIT license](http://opensource.org/licenses/MIT).
