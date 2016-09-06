@@ -3,14 +3,15 @@
   <head>
     <title>iframe-resizer host</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="../style.css">
   </head>
 
   <body>
     <div>Some content before iframes.</div>
-    <iframe src="iframes/iframe1.html" id="bigFrame" style="width: 100%; overflow: hidden; border: none;"></iframe>
-    <iframe src="iframes/iframe2.html" id="smallFrame" style="width: 100%; overflow: hidden; border: none;"></iframe>
-    <iframe src="iframes/iframe3.html" id="manualFrame1" style="width: 100%; overflow: hidden; border: none;"></iframe>
-    <iframe src="iframes/iframe4.html" id="manualFrame2" style="width: 100%; overflow: hidden; border: none; display: none;"></iframe>
+    <iframe src="iframes/iframe1.html" id="bigFrame"></iframe>
+    <iframe src="iframes/iframe2.html" id="smallFrame"></iframe>
+    <iframe src="iframes/iframe3.html" id="manualFrame1"></iframe>
+    <iframe src="iframes/iframe4.html" id="manualFrame2" style="display: none;"></iframe>
     <div>Some content after iframes.</div>
 
     <script src="../../../elasticframe.js"></script>

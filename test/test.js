@@ -3,7 +3,7 @@ const expect = require('chai').use( require('chai-as-promised') ).expect;
 const Nightmare = require('nightmare');
 const resolvePath = require('path').resolve;
 
-const browser = new Nightmare();
+const browser = new Nightmare().viewport(1000,1000);
 
 Nightmare.action('iframeHeight', function(selector, done) {
   this.evaluate_now(function(selector) {
@@ -24,13 +24,13 @@ function fixture(relativePath) {
     describe('${test}', function() {
       before(() => fixture('${test.toLowerCase()}/index.html'));
       it('supports content taller than original iframe height', function() {
-        return expect(browser.iframeHeight('#bigFrame')).to.eventually.equal(430);
+        return expect(browser.iframeHeight('#bigFrame')).to.eventually.equal(356);
       });
       it('supports content shorter than original iframe height', function() {
         return expect(browser.iframeHeight('#smallFrame')).to.eventually.equal(52);
       });
       it('supports manually resize from within iframe', function() {
-        return expect(browser.iframeHeight('#manualFrame1')).to.eventually.equal(286);
+        return expect(browser.iframeHeight('#manualFrame1')).to.eventually.equal(242);
       });
       it('supports manually resize from iframe parent', function() {
         return expect(browser.iframeHeight('#manualFrame2')).to.eventually.equal(52);
