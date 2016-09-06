@@ -8,9 +8,21 @@
     "type": "git",
     "url": "https://github.com/type10/elasticframe.git"
   },
-  "scripts": {
-    "postinstall": "cd example/browserify && npm install"
+  "devDependencies": {
+    "browserify": "^13.1.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "mocha": "^3.0.2",
+    "nightmare": "^2.6.1"
   },
+  "scripts": {
+    "browserify": "npm run browserify1 && npm run browserify2 && npm run browserify3",
+    "browserify1": "browserify test/fixtures/browserify/source.js > test/fixtures/browserify/built.js",
+    "browserify2": "browserify test/fixtures/browserify/iframes/source1.js > test/fixtures/browserify/iframes/built1.js",
+    "browserify3": "browserify test/fixtures/browserify/iframes/source2.js > test/fixtures/browserify/iframes/built2.js",
+    "test": "npm run browserify && mocha test/ --reporter spec"
+  },
+  "files": ["elasticframe.js"],
   "keywords": [
     "iframe",
     "height",

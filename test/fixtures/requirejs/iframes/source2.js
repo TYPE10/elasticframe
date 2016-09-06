@@ -1,6 +1,6 @@
 'use strict';
 
-require(['./../../../elasticframe'], function(ElasticFrame) {
+require(['./../../../../elasticframe'], function(ElasticFrame) {
   var eframe = ElasticFrame.initIframe();
   setTimeout(function() {
     var container = document.getElementById('container');

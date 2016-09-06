@@ -1,6 +1,6 @@
 'use strict';
 
-require(['./../../elasticframe'], function(ElasticFrame) {
+require(['./../../../elasticframe'], function(ElasticFrame) {
   ElasticFrame.initParent( document.querySelector('iframe#bigFrame') );
   ElasticFrame.initParent( document.getElementById('smallFrame') );
   ElasticFrame.initParent( document.getElementById('manualFrame1') );

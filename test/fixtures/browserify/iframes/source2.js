@@ -1,5 +1,5 @@
 'use strict';
-var ElasticFrame = require('../../../elasticframe');
+var ElasticFrame = require('../../../../elasticframe');
 var eframe = ElasticFrame.initIframe();
 setTimeout(function() {
   var container = document.getElementById('container');

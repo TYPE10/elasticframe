@@ -1,5 +1,5 @@
 'use strict';
-var ElasticFrame = require('../../elasticframe');
+var ElasticFrame = require('../../../elasticframe');
 ElasticFrame.initParent( document.querySelector('iframe#bigFrame') );
 ElasticFrame.initParent( document.getElementById('smallFrame') );
 ElasticFrame.initParent( document.getElementById('manualFrame1') );

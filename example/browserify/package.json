@@ -1,8 +1,0 @@
-{
-  "scripts": {
-    "postinstall": "browserify source.js > built.js && browserify iframes/source1.js > iframes/built1.js && browserify iframes/source2.js > iframes/built2.js"
-  },
-  "devDependencies": {
-    "browserify": "^13.1.0"
-  }
-}

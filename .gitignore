@@ -1,5 +1,6 @@
 .idea
 elasticframe.iml
-
-built.js
-example/browserify/node_modules/
+node_modules/
+test/fixtures/browserify/built.js
+test/fixtures/browserify/iframes/built1.js
+test/fixtures/browserify/iframes/built2.js
