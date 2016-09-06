@@ -3,9 +3,9 @@
   "main": "elasticframe.js",
   "version": "2.0.0",
   "homepage": "https://github.com/TYPE10/elasticframe",
-  "description": "ElasticFrame - Make your iframe resize automatically. Cross-domain. Dependency-free.",
+  "description": "Make your iframe(s) resize automatically. Cross-domain. Dependency-free.",
   "authors": [ "Chris Neuhäuser <chris@type10.com> (http://type10.com)" ],
   "moduleType": [ "amd", "globals", "node" ],
-  "keywords": [ "iframe", "height", "cross", "domain", "crossdomain" ],
+  "keywords": [ "iframe", "height", "cross", "domain", "crossdomain", "autoheight" ],
   "license": "MIT"
 }

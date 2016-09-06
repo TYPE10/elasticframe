@@ -3,11 +3,8 @@
   "main": "elasticframe.js",
   "version": "2.0.0",
   "homepage": "https://github.com/TYPE10/elasticframe",
-  "description": "ElasticFrame - Make your iframe resize automatically. Cross-domain. Dependency-free.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/type10/elasticframe.git"
-  },
+  "description": "Make your iframe(s) resize automatically. Cross-domain. Dependency-free.",
+  "repository": "type10/elasticframe.git",
   "devDependencies": {
     "browserify": "^13.1.0",
     "chai": "^3.5.0",
@@ -29,7 +26,8 @@
     "height",
     "cross",
     "domain",
-    "crossdomain"
+    "crossdomain",
+    "autoheight"
   ],
   "author": "Chris Neuhäuser <chris@type10.com> (http://type10.com)",
   "license": "MIT"

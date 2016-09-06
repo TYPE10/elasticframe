@@ -1,5 +1,5 @@
-ElasticFrame - Make your iframe(s) resize automatically. Cross-domain. Dependency-free.
----------------------------------------------------------------------------------------
+# ElasticFrame [![NPM Version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
+> Make your iframe(s) resize automatically. Cross-domain. Dependency-free.
 
 Same-origin policy prevents reading an iframe's document height from the host page.
 ElasticFrame makes your iframe talk to the host page about its actual document height whenever it changes.
@@ -55,3 +55,9 @@ IE8+, Firefox, Chrome, Safari, Opera
 
 Copyright &copy; 2016 [Chris Neuhaeuser](https://github.com/kwizzn), [TYPE10 Media](https://github.com/type10)
 Licensed under the [MIT license](http://opensource.org/licenses/MIT).
+
+
+[npm-image]: https://img.shields.io/npm/v/elastic-frame.svg
+[npm-url]: https://npmjs.org/package/elastic-frame
+[travis-image]: https://img.shields.io/travis/TYPE10/elastic-frame.svg
+[travis-url]: https://travis-ci.org/TYPE10/elastic-frame
