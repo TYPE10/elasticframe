@@ -30,6 +30,17 @@
     "crossdomain",
     "autoheight"
   ],
-  "author": "Chris Neuhäuser <chris@type10.com> (http://type10.com)",
+  "author": {
+    "name" : "Chris Neuhäuser",
+    "email" : "chris@type10.com",
+    "url" : "http://type10.com"
+  },
+  "contributors": [
+    {
+      "name" : "Steven Vachon",
+      "email" : "contact@svachon.com",
+      "url" : "https://svachon.com"
+    }
+  ],
   "license": "MIT"
 }

@@ -51,9 +51,15 @@ eframe.resize();
 IE8+, Firefox, Chrome, Safari, Opera
 
 
+## Contributors:
+
+https://github.com/TYPE10/elasticframe/contributors
+
+
 ## License
 
-Copyright &copy; 2016 [Chris Neuhaeuser](https://github.com/kwizzn), [TYPE10 Media](https://github.com/type10)
+Copyright &copy; 2016 [TYPE10 Media](https://github.com/type10)
+
 Licensed under the [MIT license](http://opensource.org/licenses/MIT).
 
 
