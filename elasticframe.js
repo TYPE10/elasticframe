@@ -19,7 +19,11 @@
     // https://github.com/Modernizr/Modernizr/issues/1894#issuecomment-200691178
     var supportsEventOptions = false;
     try {
-      document.addEventListener('test', null, { get passive() { supportsEventOptions = true }});
+      document.addEventListener('test', null, {
+        get passive() {
+          supportsEventOptions = true;
+        }
+      });
     } catch(e) {}
 
     function cancelAnimationFrame(id) {
@@ -52,7 +56,9 @@
 
     function listen(event, handler, options) {
         if (window.addEventListener) {
-            if (!supportsEventOptions && options !== null && typeof options === 'object') options = options.capture;
+            if (!supportsEventOptions && options !== null && typeof options === 'object') {
+              options = options.capture;
+            }
             window.addEventListener(event, handler, options);
         } else {
             window.attachEvent('on' + event, handler);
@@ -93,7 +99,9 @@
 
     function initParent(iframe) {
         var heightDelay,resetDelay,resizeDelay;
-        if (!iframe.contentWindow.postMessage) return;
+        if (!iframe.contentWindow.postMessage) {
+          return;
+        }
         function resizeIframe() {
             cancelAnimationFrame(heightDelay);
             cancelAnimationFrame(resetDelay);
@@ -126,14 +134,16 @@
                 }
             }
         }, { passive: true });
-        listen('resize', function(event) {
+        listen('resize', function() {
             resizeIframe();
         }, { passive: true });
         return { resize: resizeIframe };
     }
 
     function initIframe() {
-        if (!window.parent || !window.parent.postMessage) return;
+        if (!window.parent || !window.parent.postMessage) {
+          return;
+        }
         listen('message', function(event) {
             var data = getData(event.data);
             if (data.code === 'height-request') {
