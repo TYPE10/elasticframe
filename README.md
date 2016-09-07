@@ -57,7 +57,7 @@ Copyright &copy; 2016 [Chris Neuhaeuser](https://github.com/kwizzn), [TYPE10 Med
 Licensed under the [MIT license](http://opensource.org/licenses/MIT).
 
 
-[npm-image]: https://img.shields.io/npm/v/elastic-frame.svg
-[npm-url]: https://npmjs.org/package/elastic-frame
-[travis-image]: https://img.shields.io/travis/TYPE10/elastic-frame.svg
-[travis-url]: https://travis-ci.org/TYPE10/elastic-frame
+[npm-image]: https://img.shields.io/npm/v/elasticframe.svg
+[npm-url]: https://npmjs.org/package/elasticframe
+[travis-image]: https://img.shields.io/travis/TYPE10/elasticframe.svg
+[travis-url]: https://travis-ci.org/TYPE10/elasticframe

@@ -1,7 +1,7 @@
 {
   "name": "elasticframe",
   "main": "elasticframe.js",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "homepage": "https://github.com/TYPE10/elasticframe",
   "description": "Make your iframe(s) resize automatically. Cross-domain. Dependency-free.",
   "repository": "type10/elasticframe.git",
